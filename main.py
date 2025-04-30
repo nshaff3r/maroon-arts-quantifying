@@ -23,14 +23,14 @@ class Author:
     def __init__(self, name):
         self.name = name
         self.articles = []
-        self.quarters = []
+        self.quarters = set()
         
     def add_article(self, article):
         self.articles.append(article)
 
             
     def add_quarter(self, quarter):
-        self.quarters.append(quarter)
+        self.quarters.add(quarter)
 
 class Quarter:
     def __init__(self, name, start, end):
@@ -117,7 +117,7 @@ labels = []
 counts = []
 for year, quarters in all_quarters.items():
     for name, quarter in quarters.items():
-        print(f"{name.capitalize()} {year}, {len(quarter.articles)} articles")
+        # print(f"{name.capitalize()} {year}, {len(quarter.articles)} articles")
         labels.append(f"{name.capitalize()} {year}")
         counts.append(len(quarter.articles))
 
@@ -131,6 +131,10 @@ for year, quarters in all_quarters.items():
 # plt.tight_layout()
 # plt.show()
 
-# for name, author in all_authors.items():
-#     author_count.append([name, len(author.articles)])
+author_count = []
+for name, author in all_authors.items():
+    author_count.append([name, len(author.quarters)])
+
+for i, entry in enumerate(sorted(author_count, key=lambda x: (x[1], x[0]), reverse=True)):
+    print(f"{i + 1}. {entry[0]}: {entry[1]}")
     
